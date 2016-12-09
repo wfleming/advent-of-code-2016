@@ -12,6 +12,8 @@ main = do
   let movements = either (error . show) id parseResult
   let finalPos = walk (0,0) movements
   putStrLn $ printf "Walked to " ++ show finalPos ++ " total distance = " ++ show (dist (0,0) finalPos)
+  let hitTwice = fst $ hitTwice ((0,0), North) movements []
+  putStrLn $ printf "first loc seen twice is " ++ show hitTwice ++ " total distance = " ++ show (dist (0,0) hitTwice)
 
 type Point = (Int, Int)
 data Movement = TurnRight Int | TurnLeft Int
@@ -19,13 +21,22 @@ data Orientation = North | South | West | East
 
 walk :: Point -> [Movement] -> Point
 walk start moves = fst $ foldl step (start, North) moves
+
+hitTwice :: (Point, Orientation) -> [Movement] -> [Movement] -> Point
+hitTwice (start, facing) moves placesBeen =
+    case elem start moves of
+        True -> start
+        False -> hitTwice (step (start, facing) nextMove) restMoves [start]
   where
-    step (pos, facing) move =
-        (newPos, newDir)
-      where
-        newDir = turn facing move
-        moveDist = extractMoveDist move
-        newPos = performMove pos newDir moveDist
+    nextMove : restMoves = moves
+
+step :: (Point, Orientation) -> Movement -> (Point, Orientation)
+step (pos, facing) move =
+    (newPos, newDir)
+  where
+    newDir = turn facing move
+    moveDist = extractMoveDist move
+    newPos = performMove pos newDir moveDist
 
     extractMoveDist (TurnRight d) = d
     extractMoveDist (TurnLeft d) = d
