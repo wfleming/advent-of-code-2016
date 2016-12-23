@@ -27,6 +27,7 @@ library
                      , D11Lib
                      , D12Lib
                      , D13Lib
+                     , D14Lib
                      , Util
                      , PathSearch
   build-depends:       base >= 4.7 && < 5
