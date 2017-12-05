@@ -1,0 +1,35 @@
+name:                WFUtil
+version:             0.1.0.0
+synopsis: Reusable utils for other AOC days
+-- description:
+homepage:            https://github.com/wfleming/advent-of-code
+license:             MIT
+license-file:        LICENSE
+author:              Will Fleming
+maintainer:          will@flemi.ng
+copyright:           Copyright: (c) 2016 Will Fleming
+category:            Puzzle
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     WFUtil.Parser
+  build-depends:       base >= 4.7 && < 5
+                     , megaparsec
+  default-language:    Haskell2010
+
+test-suite WFUtil-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , WFUtil
+                     , hspec
+                     , QuickCheck
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/wfleming/advent-of-code
