@@ -1,0 +1,15 @@
+[package]
+name = "d9"
+version = "0.1.0"
+authors = ["Will Fleming <will@flemi.ng>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+num-bigint = "0.2"
+num-traits = "0.2"
+
+[[bin]]
+name = "d9"
+path = "main.rs"
