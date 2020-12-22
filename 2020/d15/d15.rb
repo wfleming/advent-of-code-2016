@@ -6,12 +6,11 @@ class Game
   attr_reader :ages, :last_turn, :last_said, :say_next
 
   def initialize(seed)
+    @ages = [nil] * seed.max
     # number spoken => last turn it was spoken
-    @ages = Hash[
-      seed.each_with_index.map { |n, idx|
-        [n, idx + 1]
-      }
-    ]
+    seed.each_with_index do |n, idx|
+      ages[n] = idx + 1
+    end
     @last_said = seed[-1]
     @say_next = 0 # no repeats in seed
     @last_turn = seed.count
@@ -21,11 +20,12 @@ class Game
     # puts "DEBUG current_turn=#{last_turn + 1}, last_said=#{last_said} say_this_turn=#{say_next} ages=#{ages}"
     @last_said = say_next
     @last_turn += 1
-    @say_next = last_turn - ages.fetch(say_next, last_turn)
+    @say_next = last_turn - (ages[say_next] || last_turn)
     ages[last_said] = last_turn
   end
 
   def play_turns!(turn_count)
+    @ages = ages + ([nil] * turn_count)# pre-allocate array
     until last_turn == turn_count
       play_turn!
     end

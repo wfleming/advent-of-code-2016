@@ -1,7 +1,7 @@
 #!/usr/bin/env julia
 
 mutable struct GameState
-  ages::Dict{Int, Int}
+  ages::Array{Int}
   last_turn::Int
   last_said::Int
   say_next::Int
